@@ -17,13 +17,12 @@ pub struct InitArgs {
     pub no_open: bool,
 
     /// 企业微信机器人 Bot ID
-    #[arg(long="bot-id")]
+    #[arg(long = "bot-id")]
     pub bot_id: Option<String>,
 
     /// 企业微信机器人 Secret
     /// #[arg(long="bot-secret")]
-     pub bot_secret: Option<String>,
-
+    pub bot_secret: Option<String>,
 }
 
 pub fn build_init_cmd() -> Command {
@@ -35,9 +34,9 @@ pub fn build_init_cmd() -> Command {
 pub async fn handle_init_cmd(matches: &ArgMatches) -> Result<()> {
     let args = InitArgs::from_arg_matches(matches)?;
 
-    let param_fulled= args.bot_id.is_some() && args.bot_secret.is_some();
+    let param_fulled = args.bot_id.is_some() && args.bot_secret.is_some();
 
-    if !args.noninteractive && !std::io::stderr().is_terminal() && !param_fulled{
+    if !args.noninteractive && !std::io::stderr().is_terminal() && !param_fulled {
         anyhow::bail!(
             "当前环境不支持交互式操作，请使用 --noninteractive 参数：\n  {} init --noninteractive",
             env!("CARGO_BIN_NAME")
@@ -46,21 +45,25 @@ pub async fn handle_init_cmd(matches: &ArgMatches) -> Result<()> {
 
     cliclack::intro("企业微信机器人初始化")?;
 
-    let (bot, bind_source) = if let (Some(bot_id),Some(bot_secret)) = (args.bot_id, args.bot_secret){
-        (auth::Bot::new(bot_id, bot_secret), McpBindSource::Interactive)
-    }else if args.noninteractive {
-        (init_qrcode(args.no_open).await?, McpBindSource::Qrcode)
-    } else {
-        let method: &str = cliclack::select("请选择企微机器人接入方式：")
-            .item("qrcode", "扫码接入（推荐）", "")
-            .item("manual", "手动输入 Bot ID 和 Secret", "")
-            .interact()?;
+    let (bot, bind_source) =
+        if let (Some(bot_id), Some(bot_secret)) = (args.bot_id, args.bot_secret) {
+            (
+                auth::Bot::new(bot_id, bot_secret),
+                McpBindSource::Interactive,
+            )
+        } else if args.noninteractive {
+            (init_qrcode(args.no_open).await?, McpBindSource::Qrcode)
+        } else {
+            let method: &str = cliclack::select("请选择企微机器人接入方式：")
+                .item("qrcode", "扫码接入（推荐）", "")
+                .item("manual", "手动输入 Bot ID 和 Secret", "")
+                .interact()?;
 
-        match method {
-            "qrcode" => (init_qrcode(args.no_open).await?, McpBindSource::Qrcode),
-            _ => (init_manual().await?, McpBindSource::Interactive),
-        }
-    };
+            match method {
+                "qrcode" => (init_qrcode(args.no_open).await?, McpBindSource::Qrcode),
+                _ => (init_manual().await?, McpBindSource::Interactive),
+            }
+        };
 
     auth::set_bot_info(&bot)?;
     verify_and_finish(bind_source).await
