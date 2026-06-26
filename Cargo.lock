@@ -1522,6 +1522,39 @@ dependencies = [
 ]
 
 [[package]]
+name = "rdjksp-wecom-cli"
+version = "0.1.9"
+dependencies = [
+ "aes-gcm",
+ "anyhow",
+ "base64",
+ "clap",
+ "cliclack",
+ "dirs",
+ "dotenvy",
+ "hex",
+ "infer",
+ "keyring",
+ "mime",
+ "mime_guess",
+ "open",
+ "qr2term",
+ "qrcode",
+ "rand",
+ "reqwest",
+ "sanitize-filename",
+ "serde",
+ "serde_json",
+ "serde_repr",
+ "sha2",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "tracing-appender",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "redox_syscall"
 version = "0.5.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2573,39 +2606,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "804f18a4ac2676ffb4e8b5b5fa9ae38af06df08162314f96a68d2a363e21a8ca"
 dependencies = [
  "rustls-pki-types",
-]
-
-[[package]]
-name = "wecom-cli"
-version = "0.1.9"
-dependencies = [
- "aes-gcm",
- "anyhow",
- "base64",
- "clap",
- "cliclack",
- "dirs",
- "dotenvy",
- "hex",
- "infer",
- "keyring",
- "mime",
- "mime_guess",
- "open",
- "qr2term",
- "qrcode",
- "rand",
- "reqwest",
- "sanitize-filename",
- "serde",
- "serde_json",
- "serde_repr",
- "sha2",
- "tempfile",
- "tokio",
- "tracing",
- "tracing-appender",
- "tracing-subscriber",
 ]
 
 [[package]]
