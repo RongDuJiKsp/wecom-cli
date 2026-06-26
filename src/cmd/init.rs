@@ -21,7 +21,7 @@ pub struct InitArgs {
     pub bot_id: Option<String>,
 
     /// 企业微信机器人 Secret
-    /// #[arg(long="bot-secret")]
+    #[arg(long= "bot-secret")]
     pub bot_secret: Option<String>,
 }
 
